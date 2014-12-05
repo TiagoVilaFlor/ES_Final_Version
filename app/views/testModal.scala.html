@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>We Care Services</title>
+
+            <!-- Bootstrap -->
+        <link href="@routes.Assets.at("css/bootstrap.min.css")" rel="stylesheet">
+        <link href="@routes.Assets.at("css/fullcalendar.css")" rel="stylesheet">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("css/jquery-ui.css")">
+        <link rel="stylesheet" href="@routes.Assets.at("css/main.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("css/jquery.icalendar.css")">
+
+            <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+            <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+            <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    </head>
+    <body>
+
+
+
+        <button id="bt" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal1">
+  Launch demo modal
+        </button>
+
+        <div id='calendar' style="width: 600px; height: 600px; margin-left: 30%"></div>
+
+
+            <!-- Modal -->
+        <div class="modal fade" id="myModalEvent" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Add Event</h4>
+                    </div>
+                    <div class="modal-body">
+                        <input type="text" class="form-control" id="dataI">
+                        <input type="text" class="form-control" id="horaI">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+            <!-- Modal -->
+        <div class="modal fade" id="myModalSubscribe" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Subscribe event</h4>
+                    </div>
+                    <div class="modal-body">
+        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+            <!-- jQuery (necessary for Bootstrap's JavaScript plugins)-->
+        <script src="@routes.Assets.at("javascripts/jquery.min.js")"></script>
+
+
+
+            <!-- Include all compiled plugins (below), or include individual files as needed -->
+        <script src="@routes.Assets.at("javascripts/bootstrap.js")"></script>
+        <script src="@routes.Assets.at("javascripts/moment.min.js")"></script>
+        <script src="@routes.Assets.at("javascripts/fullcalendar.js")"></script>
+
+
+        <script src="@routes.Assets.at("javascripts/jquery.icalendar.js")"></script>
+
+
+
+
+        <script>
+
+        $(document).ready(function() {
+
+        var tiago = "BEGIN:VCALENDAR\nVERSION:2.0\nPRODID:-//hacksw/handcal//NONSGML v1.0//EN\nBEGIN:VEVENT\nDTSTART:19970714T170000Z\nDTEND:19970715T035959Z\nSUMMARY:Bastille Day Party\nEND:VEVENT\nBEGIN:VEVENT\nDTSTART:19980714T170000Z\nDTEND:19980715T035959Z\nSUMMARY:Bastille Day Party2\nEND:VEVENT\nEND:VCALENDAR";
+
+
+        var ical = $.icalendar.parse(tiago);
+        console.log(ical);
+
+        var event = [
+        {
+        title: 'My Event',
+        msg: 'I"m occupied',
+        start: '2014-11-18 14:00:00',
+        end: '2014-11-18 15:00:00',
+        editable: true,
+        allDay: false
+        },
+        {
+        title: 'My Event2',
+        msg: 'I"m occupied',
+        start: '2014-11-19 15:00:00',
+        end: '2014-11-19 16:00:00',
+        editable: true,
+        allDay: false
+        },
+        {
+        title: 'My Event3',
+        msg: 'I"m occupied',
+        start: '2014-11-20 16:00:00',
+        end: '2014-11-20 17:00:00',
+        editable: true,
+        allDay: false
+        }
+        ];
+
+        console.log(event);
+        $('#calendar').fullCalendar({
+
+        // put your options and callbacks here
+        weekends: false,
+        editable: false,
+        selectable: true,
+        selectHelper: true,
+        lang: 'en',
+        events: event,
+        defaultView:'agendaWeek',
+        timeFormat: 'HH:mm', // uppercase H for 24-hour clock
+        header:{
+        left: 'prev, next, today',
+        center: 'title',
+        right: 'month, agendaWeek, agendaDay'
+        },
+        dayClick: function(date, jsEvent, view) {
+
+        alert('Clicked on: ' + date.format());
+
+        var dat = date.format();
+        dat = dat.split("T");
+        console.log(dat[0]);
+        console.log(dat[1]);
+        $("#dataI" ).attr('placeholder',dat[0]);
+        $("#horaI" ).attr('placeholder',dat[1]);
+
+        $('#myModalEvent').modal('show');
+
+        },
+        eventClick: function(calEvent, jsEvent, view) {
+
+        alert('Event: ' + calEvent.title);
+        alert('Event: ' + calEvent.msg);
+
+        $('#myModalSubscribe').modal('show');
+
+        },
+        eventDrop: function(event, delta, revertFunc) {
+
+        alert(event.title + " was dropped on " + event.start.format());
+
+        if (!confirm("Are you sure about this change?")) {
+        revertFunc();
+        }
+        },
+        eventResize: function(event, delta, revertFunc) {
+
+        alert(event.title + " end is now " + event.end.format());
+
+        if (!confirm("is this okay?")) {
+        revertFunc();
+        }
+
+        }
+
+
+        });
+
+
+        });
+
+        </script>
+
+
+    </body>
+</html>

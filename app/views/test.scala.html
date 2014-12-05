@@ -1,0 +1,4 @@
+@(json: com.fasterxml.jackson.databind.node.ObjectNode)
+
+<h2>Conteúdo do Json no node "teste"</h2>
+<p>@json.get("teste").asText()</p>

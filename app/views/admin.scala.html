@@ -1,0 +1,730 @@
+@(email: String, perm: String, conta: String, id: String,  bool: String)
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>We Care Services</title>
+
+            <!-- Bootstrap -->
+        <link href="@routes.Assets.at("css/bootstrap.min.css")" rel="stylesheet">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("css/bootstrap-theme.min.css")">
+        <link rel="stylesheet" href="@routes.Assets.at("css/main.css")">
+        <link href="@routes.Assets.at("css/bootstrap-social.css")" rel="stylesheet">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("css/jquery-ui.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("css/font-awesome-4.2.0/css/font-awesome.css")">
+        <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+
+        <link href="@routes.Assets.at("css/fullcalendar.css")" rel="stylesheet">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("css/jquery.icalendar.css")">
+
+            <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+            <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+            <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+
+    <![endif]-->
+    </head>
+    <body id="body">
+        <p hidden id="email" hidden="">@email</p>
+        @headerP(perm, conta, id, bool)
+
+
+        <script src='@routes.Assets.at("javascripts/chart/Chart.min.js")'></script>
+        <script src="@routes.Assets.at("javascripts/jquery.icalendar.js")"></script>
+        @scripts()
+
+        <div class="contentP">
+
+            <ul id="myTab" class="nav nav-tabs">
+                <li class="active">
+                    <a href="#pat" data-toggle="tab">
+                        Patients
+                    </a>
+                </li>
+                <li>
+                    <a href="#phy" data-toggle="tab">
+                        Physicians
+                    </a>
+                </li>
+                <li>
+                    <a href="#dashboard" data-toggle="tab">
+                        Dashboard
+                    </a>
+                </li>
+            </ul>
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade in active" id="pat">
+                    <ul id="myTab1" class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#listP" data-toggle="tab">
+                                List of Patient
+                            </a>
+                        </li>
+                        <li id="app">
+                            <a href="#appPatient" data-toggle="tab">
+                                Patient's appointment
+                            </a>
+                        </li>
+                    </ul>
+                    <div id="myTabContent1" class="tab-content">
+                        <div class="tab-pane fade in active" id="listP">
+                            <div class="box-content">
+                                <div class="box-product">
+                                    <table id="Patientlist" style="width:70%; ">
+
+                                    </table>
+                                    <div class="row" style="margin-top: 20px;margin-left:20%">
+
+                                        <button class="btn btn-success" id="xpto">Email</button>
+                                        <button class="btn btn-success" id="xptoAttach">Email com anexo</button>
+                                        <button class="btn btn-success" id="sms"> SMS</button>
+
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="appPatient">
+                            <div class='calendar' style="width: 600px; height: 600px; margin-left: 20%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="phy">
+                    <ul id="myTab2" class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#list" data-toggle="tab">
+                                List of Physicians
+                            </a>
+                        </li>
+                        <li id="calendarPhysician">
+                            <a href="#cal2" data-toggle="tab">
+                                Calendar
+                            </a>
+                        </li>
+                    </ul>
+                    <div id="myTabContent2" class="tab-content">
+                        <div class="tab-pane fade in active" id="list">
+                            <div class="box-content">
+                                <div class="box-product">
+                                    <table id="Phylist" style="width:70%; ">
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="tab-pane fade" id="cal2">
+                            <div class='calendar1' style="width: 600px; height: 600px; margin-left: 20%"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="dashboard">
+                    <ul id="myTab2" class="nav nav-tabs">
+                        <li class="active">
+                            <a href="#month" data-toggle="tab">
+                                Month
+                            </a>
+                        </li>
+                        <li >
+                            <a href="#spec" data-toggle="tab">
+                                Specialitie
+                            </a>
+                        </li>
+
+                    </ul>
+                    <div id="myTabContent3" class="tab-content" style="margin-left: 5%; margin-bottom: 1%;">
+                        <div class="tab-pane fade in active" id="month">
+
+
+                            <canvas id="consultasYear" width="600" height="400"></canvas>
+
+
+                                <!--<canvas id="consultasP" width="600" height="400"></canvas>-->
+                        </div>
+                        <div class="tab-pane fade" id="spec">
+
+                            <div class="dropdown">
+                                <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown">
+                                    Specialities
+                                    <span class="caret"></span>
+                                </button>
+                                <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu1" id="dropSpec">
+                                </ul>
+                            </div>
+                            <canvas id="consultasP" width="600" height="400"></canvas>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <script>
+        $(document).ready(function() {
+
+        //$('.calendar' ).hide();
+        $('.calendar' ).show();
+
+        var event =[];
+
+        var k = 0;
+
+        var idEvento = 0;
+        var horaI = "";
+        var horaF = "";
+        var uid = "";
+
+        pacientes = [];
+        doctors = [];
+
+        var emailPatient = "";
+        var idPatient = "";
+        var namePatient = "";
+
+        var email = "";//doctor
+        var idDoctor ="";//doctor
+        var nameDoctor  = ""//doctor
+
+
+        //capt email from session(enail)
+        v = $("#email").text();
+        console.log(v);
+
+        var email;
+        var tele;
+
+        //mudar para o que se quer
+        var m = "Boas Festas";
+        var n = "Enviamos - lhe este email para de lhe desejar umas Boas Festas junto com os seus familiares! ";
+        var sms = "Enviamos - lhe este email para de lhe desejar umas Boas Festas junto com os seus familiares! ";
+
+
+        //obtain info of an user
+        $.ajax({
+        url: 'http://192.168.8.217:9106/teste1-1.0-SNAPSHOT/webresources/generic/infoUser?',
+        type: 'GET',
+        async: false,
+        processData: true,
+        data: 'email='+v,
+        crossDomain : true,
+        success: function(resp) {
+        $.each(resp, function(i, c) {
+        $('#nameOfUser' ).html(c.name);
+        });
+        },
+        error: function(resp){
+        console.log("ERROR: An error has occurred while trying to access webservice!");
+        }
+        });
+
+
+        var v;
+        $ ( '#dropSpec' ).html ( '' ) ;
+        $.ajax({
+        url: 'http://192.168.8.217:9106/teste1-1.0-SNAPSHOT/webresources/generic/specialitie?',
+        type: 'GET',
+        async: false,
+        processData: true,
+        crossDomain : true,
+        success: function(resp) {
+        var html = "";
+        $.each ( resp, function ( i, c ) {
+        html += "<li role='presentation'><a role='menuitem' class='specClick' tabindex='-1' href='#' id='"+ c.specialitie+"'>" + c.specialitie + "</li>" ;
+        });
+        console.log(resp);
+        $ ( '#dropSpec' ).html ( html ) ;
+        $( '.specClick').click(function(){
+
+        $.ajax({
+        url: 'http://192.168.8.217:9106/Appoint3/webresources/generic/AppMounth?',
+        type: 'GET',
+        async: false,
+        processData: true,
+        data: 'specialitie='+"otorhinolaringology",
+        crossDomain : true,
+        success: function(resp) {
+        v = resp;
+        console.log(v);
+
+        var barData = {
+        labels : ["January","February","March","April","May","June","July", "August", "September", "October", "November", "December"],
+        datasets : [
+        {
+        fillColor : "#48A497",
+        strokeColor : "#48A4D1",
+        data :resp
+        }
+        ]
+        }
+        var consultasP = document.getElementById("consultasP").getContext("2d");
+        new Chart(consultasP).Bar(barData);
+
+        },
+        error: function(resp){
+        console.log("ERROR: An error has occurred while trying to access webservice!");
+        }
+        });
+        });
+        },
+        error: function(resp){
+        console.log("ERROR: An error has occurred while trying to access webservice!");
+        }
+        });
+
+        $ ( '#consultasYear' ).html ( '' ) ;
+        $.ajax({
+            url: 'http://192.168.8.217:9106/Appoint4/webresources/generic/AppSpecForMonth',
+            type: 'GET',
+            async: false,
+            processData: true,
+            crossDomain : true,
+            success: function(resp) {
+                console.log(resp);
+
+                var barData = {
+                    labels : ["January","February","March","April","May","June","July", "August", "September", "October", "November", "December"],
+                    datasets : [
+                        {
+                        fillColor : "#48A497",
+                        strokeColor : "#48A4D1",
+                        data :resp
+                        }
+                    ]
+                }
+                var consultasY = document.getElementById("consultasYear").getContext("2d");
+                new Chart(consultasY).Bar(barData);
+            },
+            error: function(resp){
+                console.log("ERROR: An error has occurred while trying to access webservice!");
+            }
+        });
+
+
+        var o = $("#email").text();
+        var k;
+
+
+        $('#Patientlist').on("click",'input[type="checkbox"]', function() {
+
+        email = $(this).parents("tr").find("td" ).eq(3).text();
+        tele = $(this).parents("tr").find("td" ).eq(2).text();
+
+        });
+
+        //Patient List table
+        $('#Patientlist').html('');
+        $.ajax({
+        url: 'http://192.168.8.217:9106/teste1-1.0-SNAPSHOT/webresources/generic/listPatients',
+        type: 'GET',
+        async: false,
+        processData: true,
+        crossDomain : true,
+        dataType: "json",
+        success: function(resp) {
+        console.log ( resp ) ;
+        var html = "" ;
+        html += "<tr><td></td><td class='appoint'><b><u>" + "Name" + "</u></b></td><td class='appoint'><b><u>" + "Phone" + "</u></b></td><td class='appoint'><b><u>" + "Email" + "</u></b></td><td class='appoint'><b><u>" + "NrAppointment" + "</u></b></td></tr>" ;
+        $.each ( resp, function ( i, c ) {
+        html += "<tr><td><input type='checkbox'></td><td><a class='item-patient'>" + c.name + "</a></td><td>" + c.phone + "</td><td>" + c.email + "</td><td>"+ c.nrConsultas+"</td></tr>" ;
+        pacientes.push({name: c.name, email: c.email, id: c.id});
+        } ) ;
+        $ ( '#Patientlist' ).html ( html ) ;
+        $ ( '.item-patient' ).click ( function ( ) {
+        console.log ( 'click' ) ;
+        emailPatient = $(this ).text();
+        for(i = 0 ; i < pacientes.length; i++)
+        if(pacientes[i].name.localeCompare(emailPatient)==0)
+        {
+        emailPatient = pacientes[i ].email;
+        idPatient = pacientes[i ].id;
+        console.log(idPatient);
+        namePatient = pacientes[i ].name;
+        break;
+        }
+
+        var calend ="";
+
+        icalFunctionP()
+
+        $('.calendar' ).show();
+        console.log(event);
+
+        $('.calendar').fullCalendar({
+
+
+        // put your options and callbacks here
+        weekends: false,
+        editable: false,
+        selectable: true,
+        selectHelper: true,
+        lang: 'en',
+        events: event,
+        defaultView:'agendaWeek',
+        timeFormat: 'HH:mm', // uppercase H for 24-hour clock
+        header:{
+        left: 'prev, next',
+        center: 'title',
+        right: 'month, agendaWeek, agendaDay'
+        }
+        });
+
+
+
+        var li_active = $ ( '#myTab1 li.active' ) ;
+        li_active.removeClass ( 'active' ) ;
+        li_active.find ( 'a' ).attr ( 'aria-expanded', 'false' ) ;
+        $ ( '#app' ).addClass ( 'active' ) ;
+        $ ( '#app' ).find ( 'a' ).attr ( 'aria-expanded', 'true' ) ;
+
+        var body_active = $ ( '#myTabContent1 div.active' ) ;
+        body_active.removeClass ( 'active' ) ;
+        body_active.removeClass ( 'in' ) ;
+        $ ( '#appPatient' ).addClass ( 'active in' ) ;
+
+        } ) ;
+        },
+        error: function(resp){
+        console.log("Deu erro");
+        }
+        });
+
+
+        $('#Phylist').html('');
+        $.ajax({
+        url: 'http://192.168.8.217:9106/teste1-1.0-SNAPSHOT/webresources/generic/doctorList',
+        type: 'GET',
+        async: false,
+        processData: true,
+        crossDomain : true,
+        dataType: "json",
+        success: function(resp) {
+        console.log ( resp ) ;
+        var html = "" ;
+        html += "<tr><td class='appoint'><b><u>" + "Name" + "</u></b></td><td class='appoint'><b><u>" + "Especialidade" + "</u></b></td></tr>" ;
+        $.each ( resp, function ( i, c ) {
+        html += "<tr><td><a class='item-patient'>" + c.name + "</a></td><td>" + c.specialitie + "</td></tr>" ;
+        doctors.push({name: c.name, email: c.email, id: c.id});
+        } ) ;
+        $ ( '#Phylist' ).html ( html ) ;
+        $ ( '.item-patient' ).click ( function ( ) {
+
+        $('.calendar').hide();
+
+        console.log ( 'click' ) ;
+
+        for(i = 0 ; i < doctors.length; i++)
+        if(doctors[i].name.localeCompare($(this ).text())==0)
+        {
+        email = doctors[i ].email;
+        idDoctor = doctors[i ].id;
+        nameDoctor = doctors[i ].name;
+        break;
+        }
+
+        var calend = "";
+
+        icalFunctionD();
+
+        $('.calendar1' ).show();
+        console.log(event);
+
+        $('.calendar1').fullCalendar({
+
+
+        // put your options and callbacks here
+        weekends: false,
+        editable: false,
+        selectable: true,
+        selectHelper: true,
+        lang: 'en',
+        events: event,
+        defaultView:'agendaWeek',
+        timeFormat: 'HH:mm', // uppercase H for 24-hour clock
+        header:{
+        left: 'prev, next',
+        center: 'title',
+        right: 'month, agendaWeek, agendaDay'
+        }
+        });
+
+        var li_active = $ ( '#myTab2 li.active' ) ;
+        li_active.removeClass ( 'active' ) ;
+        li_active.find ( 'a' ).attr ( 'aria-expanded', 'false' ) ;
+        $ ( '#calendarPhysician' ).addClass ( 'active' ) ;
+        $ ( '#calendarPhysician' ).find ( 'a' ).attr ( 'aria-expanded', 'true' ) ;
+
+
+        var body_active = $ ( '#myTabContent2 div.active' ) ;
+        body_active.removeClass ( 'active' ) ;
+        body_active.removeClass ( 'in' ) ;
+        $ ( '#cal2' ).addClass ( 'active in' ) ;
+        } ) ;
+
+        },
+        error: function(resp){
+        console.log("Deu erro");
+        }
+        });
+
+
+        $ ( '#xptoAttach' ).click ( function ( ) {
+        console.log ( 'click xptoAttach' ) ;
+        console.log(email);
+        $.ajax({
+        url: 'http://192.168.8.217:9121/calendarservice/webresources/calendar/mail/sendEmail/Attachment?',
+        type: 'GET',
+        async: false,
+        data:'user='+'andre'+'&Mail='+email+'&Content='+m+'&Subject='+n+'&Attachment=/home/wcs/calendar.ics',
+        processData: true,
+        crossDomain : true,
+        dataType : "json",
+        success: function(resp) {
+        console.log(resp);
+        console.log("ola");
+        },
+        error: function(resp){
+        //console.log("ERROR: An error has occurred while trying to access webservice!");
+        }
+        });
+        });
+
+        $ ( '#xpto' ).click ( function ( ) {
+        console.log ( 'click xpto' ) ;
+        console.log(email);
+        $.ajax({
+        url: 'http://192.168.8.217:9106/WCS_Notifications-1.0-SNAPSHOT/webresources/Notifications/mail/sendEmail?',
+        type: 'GET',
+        async: false,
+        data:'Email='+email+'&Message='+m+'&Subject='+n,
+        processData: true,
+        crossDomain : true,
+        success: function(resp) {
+        console.log(resp);
+        console.log("ola");
+        },
+        error: function(resp){
+        //console.log("ERROR: An error has occurred while trying to access webservice!");
+        }
+        });
+        });
+
+        $ ( '#sms' ).click ( function ( ) {
+        console.log ( 'click sms' ) ;
+        $.ajax({
+        url: 'http://192.168.8.217:9106/WCS_Notifications-1.0-SNAPSHOT/webresources/Notifications/smsmessaging/outbound?',
+        type: 'GET',
+        async: false,
+        data:'address='+tele+'&message='+sms+'&senderAddress=915100939',
+        processData: true,
+        crossDomain : true,
+        success: function(resp) {
+        console.log(resp);
+        console.log("ola");
+        },
+        error: function(resp){
+        //console.log("ERROR: An error has occurred while trying to access webservice!");
+        }
+        });
+        });
+
+        function icalFunctionD(){
+
+        $.ajax({
+        url: 'http://192.168.8.217:9121/calendarservice/webresources/calendar/getCalendar?',
+        type: 'GET',
+        async: false,
+        processData: true,
+        data: 'uid='+idDoctor,
+        crossDomain : true,
+        success: function(resp) {
+        calend = resp;
+        },
+        error: function(resp){
+        console.log("ERROR: An error has occurred while trying to access webservice!");
+        }
+        });
+
+        var ical = $.icalendar.parse(calend);
+        console.log("ical");
+        console.log(ical);
+        index = 0 ;
+        if(ical.vevent instanceof Array) {
+        ical.vevent.forEach(function(vevent) {
+
+        //1º var tiago
+        start = vevent.dtstart;
+        end = vevent.dtend;
+        uid = vevent.uid;
+
+        var ko = ""+start;
+        ko = ko.split(" ");
+        mes = "";
+        mes = mesFunction(ko);
+        var dInicio = ko[3]+"-"+mes+"-"+ko[2]+" "+ko[4];
+        horaI = ko[4];
+
+
+        var ko = ""+end;
+        ko = ko.split(" ");
+        mes = "";
+        mes = mesFunction(ko);
+        var dFim = ko[3]+"-"+mes+"-"+ko[2]+" "+ko[4];
+        horaF = ko[4];
+
+        event.push({allDay: false, editable: true, end: dFim, msg: "fsuxcilfnvoisdabvioçafdb", start:dInicio, title: "", uid: uid});
+        });
+        } else {
+
+        //2º var tiago
+        start = ical.vevent.dtstart;
+        end = ical.vevent.dtend;
+        uid = ical.vevent.uid;
+
+        var ko = ""+start;
+        ko = ko.split(" ");
+        mes = "";
+        mes = mesFunction(ko);
+        var dInicio = ko[3]+"-"+mes+"-"+ko[2]+" "+ko[4];
+        horaI = ko[4];
+
+        var ko = ""+end;
+        ko = ko.split(" ");
+        mes = "";
+        mes = mesFunction(ko);
+        var dFim = ko[3]+"-"+mes+"-"+ko[2]+" "+ko[4];
+        horaF = ko[4];
+
+        event.push({allDay: false, editable: true, end: dFim, msg: "fsuxcilfnvoisdabvioçafdb", start:dInicio, title: "", uid: uid});
+
+        }
+
+        }
+
+        function icalFunctionP() {
+
+        $.ajax ( {
+        url : 'http://192.168.8.217:9121/calendarservice/webresources/calendar/getCalendar?',
+        type : 'GET',
+        async : false,
+        processData : true,
+        data : 'uid=' + idPatient,
+        crossDomain : true,
+        success : function ( resp ) {
+        calend = resp ;
+        },
+        error : function ( resp ) {
+        console.log ( "ERROR: An error has occurred while trying to access webservice!" ) ;
+        }
+        } ) ;
+
+        var ical = $.icalendar.parse ( calend ) ;
+        console.log ( "ical" ) ;
+        console.log ( ical ) ;
+        index = 0 ;
+        if ( ical.vevent instanceof Array ) {
+        ical.vevent.forEach ( function ( vevent ) {
+
+        //1º var tiago
+        start = vevent.dtstart ;
+        end = vevent.dtend ;
+        uid = vevent.uid ;
+
+        var ko = "" + start ;
+        ko = ko.split ( " " ) ;
+        mes = "" ;
+        mes = mesFunction ( ko ) ;
+        var dInicio = ko[ 3 ] + "-" + mes + "-" + ko[ 2 ] + " " + ko[ 4 ] ;
+        horaI = ko[ 4 ] ;
+
+
+        var ko = "" + end ;
+        ko = ko.split ( " " ) ;
+        mes = "" ;
+        mes = mesFunction ( ko ) ;
+        var dFim = ko[ 3 ] + "-" + mes + "-" + ko[ 2 ] + " " + ko[ 4 ] ;
+        horaF = ko[ 4 ] ;
+
+        event.push ( { allDay : false, editable : true, end : dFim, msg : "fsuxcilfnvoisdabvioçafdb", start : dInicio, title : "", uid : uid } ) ;
+        } ) ;
+        } else {
+
+        //2º var tiago
+        start = ical.vevent.dtstart ;
+        end = ical.vevent.dtend ;
+        uid = ical.vevent.uid ;
+
+        var ko = "" + start ;
+        ko = ko.split ( " " ) ;
+        mes = "" ;
+        mes = mesFunction ( ko ) ;
+        var dInicio = ko[ 3 ] + "-" + mes + "-" + ko[ 2 ] + " " + ko[ 4 ] ;
+        horaI = ko[ 4 ] ;
+
+        var ko = "" + end ;
+        ko = ko.split ( " " ) ;
+        mes = "" ;
+        mes = mesFunction ( ko ) ;
+        var dFim = ko[ 3 ] + "-" + mes + "-" + ko[ 2 ] + " " + ko[ 4 ] ;
+        horaF = ko[ 4 ] ;
+
+        event.push ( { allDay : false, editable : true, end : dFim, msg : "fsuxcilfnvoisdabvioçafdb", start : dInicio, title : "", uid : uid } ) ;
+
+        }
+        }
+
+        function mesFunction(ko){
+
+        mes = "";
+
+        switch (ko[1]) {
+        case "Jan":
+        mes = "01";
+        break;
+        case "Feb":
+        mes = "02";
+        break;
+        case "Mar":
+        mes = "03";
+        break;
+        case "Apr":
+        mes = "04";
+        break;
+        case "May":
+        mes = "05";
+        break;
+        case "Jun":
+        mes = "06";
+        break;
+        case "Jul":
+        mes = "07";
+        break;
+        case "Aug":
+        mes = "08";
+        break;
+        case "Sep":
+        mes = "09";
+        break;
+        case "Oct":
+        mes = "10";
+        break;
+        case "Nov":
+        mes = "11";
+        break;
+        case "Dec":
+        mes = "12";
+        break;
+        }
+        return mes;
+        }
+
+        });
+        </script>
+
+        <script src='@routes.Assets.at("javascripts/chart/Chart.min.js")'></script>
+
+    </body>
+</html>

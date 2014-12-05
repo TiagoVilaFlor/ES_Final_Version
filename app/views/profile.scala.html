@@ -1,0 +1,381 @@
+@(email: String, perm: String, conta: String, id: String,  bool: String)
+
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>We Care Services</title>
+
+            <!-- Bootstrap -->
+        <link href="@routes.Assets.at("css/bootstrap.min.css")" rel="stylesheet">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("css/bootstrap-theme.min.css")">
+        <link rel="stylesheet" href="@routes.Assets.at("css/main.css")">
+        <link href="@routes.Assets.at("css/bootstrap-social.css")" rel="stylesheet">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("css/jquery-ui.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("css/font-awesome-4.2.0/css/font-awesome.css")">
+        <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+
+        <link href="@routes.Assets.at("css/fullcalendar.css")" rel="stylesheet">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("css/jquery.icalendar.css")">
+            <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+            <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+            <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+
+    <![endif]-->
+    </head>
+    <body id="body">
+        <p hidden id="email" hidden="">@email</p>
+        @headerP(perm, conta, id, bool)
+
+        <div class="contentP">
+            <ul id="myTab" class="nav nav-tabs">
+                <li class="active">
+                    <a href="#profile" data-toggle="tab">
+                        Profile
+                    </a>
+                </li>
+                <li>
+                    <a href="#historic" data-toggle="tab">
+                        Historic
+                    </a>
+                </li>
+                <li>
+                    <a href="#cal" data-toggle="tab">
+                        My Calendar
+                    </a>
+                </li>
+
+            </ul>
+            <div id="myTabContent" class="tab-content">
+                <div class="tab-pane fade in active" >
+                    <div id="profile"></div>
+                    <button class='btn btn-success' id='saveChanges'>Save changes</button>
+                </div>
+                <div class="tab-pane fade" id="historic">
+                    <div data-spy='scroll' class='scrollspy-example'>
+                        <table class="table table-striped" id="historic1" style="width:70%;">
+
+                        </table>
+                    </div>
+                </div>
+                <div class="tab-pane fade" id="cal">
+
+                    <div class="row">
+                        <div class="col-md-1" style="margin-top : 20%">
+
+                        </div>
+                        <div class="col-md-10">
+                            <div class='calendar' style="width : 600px ; height : 600px ; margin-left : 20%"></div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        @scripts()
+
+        <script>
+
+        $(document).ready(function() {
+
+
+        var horaI = "";
+        var horaF = "";
+
+        var event =[];
+
+        //capt email from session(enail)
+        v = $("#email").text();
+        console.log(v);
+
+        event = [];
+        var phone;
+        var name;
+        var bdate;
+
+        //store the user_id
+        var k = 0;
+        $.ajax({
+        url: 'http://192.168.8.217:9106/teste1-1.0-SNAPSHOT/webresources/generic/infoUser?',
+        type: 'GET',
+        async: false,
+        processData: true,
+        data: 'email='+v,
+        crossDomain : true,
+        success: function(resp) {
+        $.each(resp, function(i, c) {
+        k = c.id;
+        });
+        },
+        error: function(resp){
+        console.log("ERROR: An error has occurred while trying to access webservice!");
+        }
+        });
+
+        console.log("id: "+k);
+
+        var calend = "";
+
+        icalFunctionP();
+
+        $('#profile').html('');
+        //obtain info of an user
+        $.ajax({
+        url: 'http://192.168.8.217:9106/teste1-1.0-SNAPSHOT/webresources/generic/infoUser?',
+        type: 'GET',
+        async: false,
+        processData: true,
+        data: 'email='+v,
+        crossDomain : true,
+        success: function(resp) {
+        console.log(resp);
+        var html = "";
+        $.each(resp, function(i, c) {
+        html+="<div class='input-group input-group-lg'><span class='input-group-addon'>"+"Name"+"</span><input id='name' type='text' class='form-control' disable placeholder='"+ c.name+"'></div><br/>";
+        html+="<div class='input-group input-group-lg'><span class='input-group-addon'>"+"Phone"+"</span><input id='phone' type='text' class='form-control' disable placeholder='"+ c.phone+"'></div><br/>";
+        html+="<div class='input-group input-group-lg'><span class='input-group-addon'>"+"Email"+"</span><input id='email1' type='text' class='form-control' disable placeholder='"+ c.email+"'></div><br/>";
+        html+="<div class='input-group input-group-lg'><span class='input-group-addon'>"+"Birthdate"+"</span><input id='date' type='text' class='form-control' disable placeholder='"+ c.date+"'></div><br/>";
+        html+="<div class='input-group input-group-lg'><span class='input-group-addon'>"+"Insertion Date"+"</span><input id='insert' type='text' class='form-control' disable placeholder='"+ c.insertion_date+"'></div><br/>";
+        html+="<div class='input-group input-group-lg'><span class='input-group-addon'>"+"NR. Appointment"+"</span><input id='nrconsultas' type='text' class='form-control' disable placeholder='"+ c.nrConsultas+"'></div><br/>";
+        name = c.name.split(" ");
+        phone = c.phone;
+        bdate = c.date;
+        $('#nameOfUser' ).html(c.name);
+
+
+
+        $('#saveChanges' ).click(function(){                    //nao funciona
+        console.log('click');
+
+        var phone = $('#phone').attr('placeholder');
+        if (phone==271513062)
+        phone = 919345254;
+        else
+        phone = 271513062;
+        var firstName = $('#name').attr('placeholder').split(" ")[0];
+        var lastName = "";
+        if($('#name').attr('placeholder').split(" " ).length > 2)
+        for(i = 0; i < $('#name').attr('placeholder').split(" " ).length -1; i++ ){
+        lastName += $('#name').attr('placeholder').split(" ")[i+1];
+        if(i != $('#name').attr('placeholder').split(" " ).length -2)
+        lastName+=" ";
+        }
+        var birt = $("#date").attr('placeholder');
+
+        //var data = '"{\"user_id\": ' + k + ', \"phone_number\":' +phone+ ', \"birthday\":"'+birt+'", \"first_name\":"'+ firstName + '", \"last_name\":"'+ lastName +'"}"';
+        //console.log("data string: ", data);
+        //console.log("{\"user_id\":16,\"phone_number\":915589527, \"birthday\":\"19929-09-07\",\"first_name\":\"Hugo\",\"last_name\":\"Frade\"}");
+        //saveChanges
+        console.log(phone);
+        $.ajax({
+        url: 'http://192.168.8.217:9106/wcs_db_connector/webresources/wcs/user/update?',
+        type: 'GET',
+        async: false,
+        processData: true,
+        data: 'uid='+k+"&birthday="+birt+"&first_name="+firstName+"&last_name="+lastName+"&phone_number="+phone,
+        crossDomain: true,
+        dataType: "json",
+        success: function(resp) {
+        console.log("ola");
+        },
+        error: function(resp){
+        console.log("ERROR: An error has occurred while trying to access webservice! "+resp);
+        }
+        });
+
+        location.reload();
+
+        });
+
+        });
+        $('#profile').html(html);
+        },
+        error: function(resp){
+        console.log("ERROR: An error has occurred while trying to access webservice!");
+        }
+        });
+
+        $("#email1").prop('disabled', true);
+        $("#insert").prop('disabled', true);
+        $("#nrconsultas").prop('disabled', true);
+
+        //Falta mudar esta parte que tem de ser info fornecida pelo andré!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+        $('#historic1').html('');
+        $.ajax({
+        url: 'http://192.168.8.217:9106/Appoint3/webresources/generic/appointHistory?',
+        type: 'GET',
+        async: false,
+        processData: true,
+        data: 'id='+k,
+        crossDomain : true,
+        success: function(resp) {
+        var html = "";
+        html+="<thead><tr><td class='appoint'><b><u>"+"NRAppointment"+"</u></b></td><td class='appoint'><b><u>"+"Specialitie"+"</u></b></td><td class='appoint'><b><u>"+"Appointment Date"+"</u></b></td></tr></thead><tbody>";
+        $.each(resp, function(i, c) {
+        html+="<tr><td>"+i+"</td><td>"+c.spec+"</td><td>"+c.appointDate+"</td></tr>";
+        });
+        html+="</tbody>";
+        $('#historic1').html(html);
+        },
+        error: function(resp){
+        console.log("ERROR: An error has occurred while trying to access webservice!");
+        }
+        });
+
+
+        function icalFunctionP(){
+
+        $.ajax({
+        url: 'http://192.168.8.217:9121/calendarservice/webresources/calendar/getCalendar?',
+        type: 'GET',
+        async: false,
+        processData: true,
+        data: 'uid='+k,
+        crossDomain : true,
+        success: function(resp) {
+        calend = resp;
+        console.log(resp);
+        },
+        error: function(resp){
+        console.log("ERROR: An error has occurred while trying to access webservice!");
+        }
+        });
+
+
+        var ical = $.icalendar.parse(calend);
+        console.log(ical);
+
+        var sum = "";
+
+        if(ical.vevent instanceof Array) {
+        ical.vevent.forEach(function(vevent) {
+        start = vevent.dtstart;
+        end = vevent.dtend;
+        uid = vevent.uid;
+
+        sum = vevent.summary;
+
+        var ko = ""+start;
+        ko = ko.split(" ");
+        mes = "";
+        mes = mesFunction(ko);
+        var dInicio = ko[3]+"-"+mes+"-"+ko[2]+" "+ko[4];
+        horaI = ko[4];
+
+        var ko = ""+end;
+        ko = ko.split(" ");
+        mes = "";
+        mes = mesFunction(ko);
+        var dFim = ko[3]+"-"+mes+"-"+ko[2]+" "+ko[4];
+        horaF = ko[4];
+
+        event.push({allDay: false, editable: true, end: dFim, msg: "xpto", start:dInicio, title: sum, uid: uid});
+        });
+        } else {
+            sum = ical.vevent.summary;
+        start = ical.vevent.dtstart;
+        end = ical.vevent.dtend;
+        uid = ical.vevent.uid;
+
+        var ko = ""+start;
+        ko = ko.split(" ");
+        mes = "";
+        mes = mesFunction(ko);
+        var dInicio = ko[3]+"-"+mes+"-"+ko[2]+" "+ko[4];
+        horaI = ko[4];
+
+        var ko = ""+end;
+        ko = ko.split(" ");
+        mes = "";
+        mes = mesFunction(ko);
+        var dFim = ko[3]+"-"+mes+"-"+ko[2]+" "+ko[4];
+        horaF = ko[4];
+
+        event.push({allDay: false, editable: true, end: dFim, msg: "xpto", start:dInicio, title: sum, uid: uid});
+
+        }
+
+
+        $('.calendar').show();
+
+        $('.calendar').fullCalendar( {
+
+        // put your options and callbacks here
+        weekends : true,
+        editable : false,
+        selectable : true,
+        selectHelper : true,
+        lang : 'en',
+        events : event,
+        defaultView : 'agendaWeek',
+        timeFormat : 'HH:mm', // uppercase H for 24-hour clock
+        header : {
+        left : 'prev, next',
+        center : 'title',
+        right : 'month, agendaWeek, agendaDay'
+        }
+        });
+
+
+        }
+
+
+        function mesFunction(ko){
+
+        mes = "";
+
+        switch (ko[1]) {
+        case "Jan":
+        mes = "01";
+        break;
+        case "Feb":
+        mes = "02";
+        break;
+        case "Mar":
+        mes = "03";
+        break;
+        case "Apr":
+        mes = "04";
+        break;
+        case "May":
+        mes = "05";
+        break;
+        case "Jun":
+        mes = "06";
+        break;
+        case "Jul":
+        mes = "07";
+        break;
+        case "Aug":
+        mes = "08";
+        break;
+        case "Sep":
+        mes = "09";
+        break;
+        case "Oct":
+        mes = "10";
+        break;
+        case "Nov":
+        mes = "11";
+        break;
+        case "Dec":
+        mes = "12";
+        break;
+        }
+        return mes;
+        }
+
+
+
+        });
+
+        </script>
+
+    </body>
+</html>
+

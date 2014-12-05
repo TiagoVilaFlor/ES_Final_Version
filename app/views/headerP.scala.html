@@ -1,0 +1,57 @@
+@(perm: String, conta : String, id : String, bool: String)
+<p id="permissionOfUser" hidden>perm</p>
+
+
+<nav id="header" class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+            <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="@routes.AppJava.privat()"><img id="logo" align="center" src="@routes.Assets.at("images/logo-bmp.jpg")"></a>
+
+            <ul class="nav navbar-nav navbar-collapse collapse navbar-right" style="margin-left: 570px">
+                @if(conta.compareTo("Google")!=0 && bool.compareTo("0")==0){
+                    <a style="margin-top: 5%;" class="btn btn-social-icon btn-google-plus" id="google" href="#"><i class="fa fa-google-plus"></i></a>
+                }
+                @if(conta.compareTo("Facebook")!=0 && bool.compareTo("0")==0){
+                    <a style="margin-top: 5%; margin-right: -3%" class="btn btn-social-icon btn-facebook" id ="facebook" href="#"><i class="fa fa-facebook"></i></a>
+                }
+                <ul class="nav navbar-nav navbar-right">
+                    <li class="dropdown">
+                        <a href="#" data-toggle="dropdown" class="dropdown-toggle"><p id ="nameOfUser" style="display: inline"></p><b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            @if(perm.compareTo("A")==0) {
+                                <li><a href="@routes.AppJava.admin()">Administrator</a></li>
+                            }
+                            <li><a href="@routes.AppJava.profile()">Edit Account</a></li>
+                            <li class="divider"></li>
+                            <li><a href="@routes.AppJava.logout()">Logout</a></li>
+                        </ul>
+                    </li>
+                </ul>
+            </ul>
+
+        </div>
+
+
+    </div><!-- /.navbar-collapse -->
+</nav>
+
+<script>
+$(document).ready(function(){
+
+$('#google').on("click", function() {
+console.log("google");
+});
+
+$('#facebook').on("click", function() {
+console.log("facebook");
+});
+
+});
+</script>

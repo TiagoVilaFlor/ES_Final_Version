@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>We Care Services</title>
+
+            <!-- Bootstrap -->
+        <link href="@routes.Assets.at("css/bootstrap.min.css")" rel="stylesheet">
+        <link href="@routes.Assets.at("css/fullcalendar.css")" rel="stylesheet">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("css/bootstrap-theme.min.css")">
+        <link rel="stylesheet" href="@routes.Assets.at("css/main.css")">
+        <link href="@routes.Assets.at("css/bootstrap-social.css")" rel="stylesheet">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("css/jquery-ui.css")">
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("css/font-awesome-4.2.0/css/font-awesome.css")">
+
+
+
+        <link rel="stylesheet" media="screen" href="@routes.Assets.at("css/jquery.icalendar.css")">
+
+
+
+        <link href="http://fonts.googleapis.com/css?family=Lato:300,400,700,300italic,400italic,700italic" rel="stylesheet" type="text/css">
+            <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+            <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+            <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+
+
+
+    <![endif]-->
+    </head>
+    <body id="body">
+
+            <!--<button style="margin-left: 30%;" class="btn btn-primary" data-toggle="modal" data-target="#addEventModal">Add new Appointment</button>-->
+
+
+        <div id='calendar' style="width: 600px; height: 600px; margin-left: 30%"></div>
+
+            <!--<button class="btn btn-success" id="xpto">xpto</button>
+        <button class="btn btn-success" id="xptoAttach">xptoAttach</button>
+        <button class="btn btn-success" id="sms"> SMS</button>-->
+
+        <script src="@routes.Assets.at("javascripts/bootstrap.js")"></script>
+        <script src="@routes.Assets.at("javascripts/jquery.min.js")"></script>
+        <script src="@routes.Assets.at("javascripts/moment.min.js")"></script>
+        <script src="@routes.Assets.at("javascripts/fullcalendar.js")"></script>
+
+
+        <script src="@routes.Assets.at("javascripts/jquery.icalendar.js")"></script>
+
+
+        <script>
+        $ ( '#mm' ).click ( function ( ) {
+        console.log ( 'click' ) ;
+        });
+        </script>
+
+
+            <!-- Modal -->
+        <div class="modal fade" id="addEventModal" tabindex="-1" role="dialog" aria-labelledby="addEventModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <h4 class="modal-title" id="addEventModalLabel">New Appointment</h4>
+                    </div>
+                    <div class="modal-body">
+                        <form role="form">
+                            <div class="form-group">
+                                <label for="eventNameInput">Specialitie</label>
+                                <input id="eventNameInput" type="text" class="form-control" placeholder="Enter specialitie" name="eventNameInput">
+                            </div>
+                            <div class="form-group">
+                                <label for="locationInput">Doctor</label>
+                                <input id="locationInput" type="text" class="form-control" placeholder="Enter doctor name" name="locationInput">
+                            </div>
+                            <div class="form-group">
+                                <label for="startDateInput">date</label>
+                                <div class="dropdown">
+                                    <a class="dropdown-toggle" id="dropdownStart" role="button" data-toggle="dropdown" data-target="#" href="#">
+                                        <div class="input-group">
+                                            <input id="startDateInput" type="text" class="form-control" data-ng-model="formattedStartDate" placeholder="Start date">
+                                            <span class="input-group-addon"><i class="glyphicon glyphicon-calendar"></i></span>
+                                        </div>
+                                    </a>
+                                    <ul class="dropdown-menu" role="menu" aria-labelledby="dLabel">
+                                        <datetimepicker data-datetimepicker-config="{ dropdownSelector: '#dropdownStart', minuteStep:15 }"/>
+                                    </ul>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" data-dismiss="modal">Add</button>
+                    </div>
+                </div><!-- /.modal-content -->
+            </div><!-- /.modal-dialog -->
+        </div><!-- /.modal -->
+        <!-- Modal -->
+
+
+        <button id="bt" type="button" class="btn btn-primary btn-lg" data-toggle="modal" data-target="#myModal1">
+  Launch demo modal
+        </button>
+
+            <!-- Modal -->
+        <div class="modal fade" id="myModal1" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h4 class="modal-title" id="myModalLabel">Modal title</h4>
+                    </div>
+                    <div class="modal-body">
+        ...
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary">Save changes</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <script>
+
+
+        $(document).ready(function() {
+
+        $( "#bt" ).click(function() {
+        console.log("button");
+        });
+
+
+        var vevent = "BEGIN:VCALENDAR " +
+        "VERSION:2.0 " +
+        "PRODID:-//hacksw/handcal//NONSGML v1.0//EN " +
+        "BEGIN:VEVENT " +
+        "DTSTART:19970714T170000Z " +
+        "DTEND:19970715T035959Z " +
+        "SUMMARY:Bastille Day Party " +
+        "END:VEVENT " +
+        "END:VCALENDAR";
+
+        // var ical = $.icalendar.parse(vevent);
+        //console.log(ical.vevent);
+
+
+        var v={};
+
+        var event = [
+        {
+        title: 'My Event',
+        msg: 'I"m occupied',
+        start: '2014-11-18 14:00:00',
+        end: '2014-11-18 15:00:00',
+        editable: true,
+        allDay: false
+        },
+        {
+        title: 'My Event2',
+        msg: 'I"m occupied',
+        start: '2014-11-19 15:00:00',
+        end: '2014-11-19 16:00:00',
+        editable: true,
+        allDay: false
+        },
+        {
+        title: 'My Event3',
+        msg: 'I"m occupied',
+        start: '2014-11-20 16:00:00',
+        end: '2014-11-20 17:00:00',
+        editable: true,
+        allDay: false
+        }
+        ];
+
+        // page is now ready, initialize the calendar...
+
+        $('#calendar').fullCalendar({
+
+        // put your options and callbacks here
+        weekends: false,
+        editable: false,
+        selectable: true,
+        selectHelper: true,
+        lang: 'en',
+        events: event,
+        defaultView:'agendaWeek',
+        timeFormat: 'HH:mm', // uppercase H for 24-hour clock
+        header:{
+        left: 'prev, next, today',
+        center: 'title',
+        right: 'month, agendaWeek, agendaDay'
+        },
+        dayClick: function(date, jsEvent, view) {
+
+        alert('Clicked on: ' + date.format());
+
+        },
+        eventClick: function(calEvent, jsEvent, view) {
+
+        alert('Event: ' + calEvent.title);
+        alert('Event: ' + calEvent.msg);
+
+        $('#myModal1').modal('show');
+
+        },
+        eventDrop: function(event, delta, revertFunc) {
+
+        alert(event.title + " was dropped on " + event.start.format());
+
+        if (!confirm("Are you sure about this change?")) {
+        revertFunc();
+        }
+        },
+        eventResize: function(event, delta, revertFunc) {
+
+        alert(event.title + " end is now " + event.end.format());
+
+        if (!confirm("is this okay?")) {
+        revertFunc();
+        }
+
+        }
+
+
+        });
+
+        var v;
+
+        $.ajax({
+        url: 'http://localhost:8080/wcs/webresources/generic/doctorsList',
+        type: 'GET',
+        async: false,
+        processData: true,
+        crossDomain : true,
+        dataType: "json",
+        success: function(resp) {
+
+        $.each ( resp, function ( i, c ) {
+        if ( c.name.localeCompare("tiago Lourenc") == 0){
+        v = c.email;
+        console.log(v);
+        }
+        } ) ;
+        },
+        error: function(resp){
+        console.log("Deu erro");
+        }
+        });
+
+        var m = "eu e tu";
+        var n = "nos os dois";
+
+
+        $ ( '#xpto' ).click ( function ( ) {
+        console.log ( 'click' ) ;
+        $.ajax({
+        url: 'http://192.168.8.217:9106/WCS_Notifications-1.0-SNAPSHOT/webresources/Notifications/mail/sendEmail?',
+        type: 'GET',
+        async: false,
+        data:'Email='+v+'&Message='+m+'&Subject='+n,
+        processData: true,
+        crossDomain : true,
+        success: function(resp) {
+        console.log(resp);
+        console.log("ola");
+        },
+        error: function(resp){
+        console.log("ERROR: An error has occurred while trying to access webservice!");
+        }
+        });
+        });
+
+        $ ( '#xptoAttach' ).click ( function ( ) {
+        console.log ( 'click' ) ;
+        $.ajax({
+        url: 'http://192.168.8.217:9106/WCS_Notifications-1.0-SNAPSHOT/webresources/Notifications/mail/sendEmail/Attachment?',
+        type: 'GET',
+        async: false,
+        data:'Mail='+v+'&Content='+m+'&Subject='+n+'&Attachment=/home/wcs/ola.txt&Filename=File%20de%20teste',
+        processData: true,
+        crossDomain : true,
+        success: function(resp) {
+        console.log(resp);
+        console.log("ola");
+        },
+        error: function(resp){
+        console.log("ERROR: An error has occurred while trying to access webservice!");
+        }
+        });
+        });
+
+        var k = 919345254;
+        var sms = "ola Tiago";
+
+
+        $ ( '#sms' ).click ( function ( ) {
+        console.log ( 'click' ) ;
+        $.ajax({
+        url: 'http://192.168.8.217:9106/WCS_Notifications-1.0-SNAPSHOT/webresources/Notifications/smsmessaging/outbound?',
+        type: 'GET',
+        async: false,
+        data:'address='+k+'&message='+sms+'&senderAddress=915100939',
+        processData: true,
+        crossDomain : true,
+        success: function(resp) {
+        console.log(resp);
+        console.log("ola");
+        },
+        error: function(resp){
+        console.log("ERROR: An error has occurred while trying to access webservice!");
+        }
+        });
+        });
+
+
+        });
+        </script>
+
+    </body>
+</html>

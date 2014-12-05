@@ -1,0 +1,98 @@
+#body{
+    background: url('../images/backgroundHome.jpg') no-repeat fixed;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    padding-top: 70px;
+}
+
+#logo{
+    width: 25%;
+    height: 170%;
+    margin-top: -15px;
+}
+
+
+#header{
+    width: 75%;
+    margin: 0 0 0 25%;
+    opacity: 0.7;
+}
+
+#containerC{
+    width: 50%;
+    margin-left: 50%;
+    margin-top: 7.5%;
+}
+
+#myModalSignIn{
+    margin-top: 9%;
+    margin-left: 20%;
+}
+
+#myModalSignUp{
+    margin-top: 9%;
+    margin-left: 20%;
+}
+
+#containerP{
+    margin-left: 25%;
+    opacity: 1;
+    width: 100%;
+}
+
+#pass{
+    color: #00aaff;
+    font-weight: bold;
+}
+
+#recover{
+    width: 50%;
+    margin-left: 30%;
+    margin-top: 1.5%;
+}
+
+.contentP{
+    margin-left: 35%;
+    margin-top: 2%;
+    width: 60%;
+}
+
+#dropdownMenu1{
+    margin-top: 3%;
+}
+
+#myTab1 {
+    margint-top:3%;
+    margin-left:2%;
+    width: 68%;
+}
+
+#myTab2 {
+    margint-top:3%;
+    margin-left:2%;
+    width: 68%;
+}
+
+.tab-pane{
+    opacity: 0;
+}
+
+#myTabContent{
+    margin-top: 2%;
+    margin-left: 4%;
+}
+
+#myTabContent1{
+    margin-top: 3%;
+    margin-left: 4%;
+}
+
+#myTabContent2{
+    margin-left: 4%;
+}
+
+.appoint{
+    width:200px;
+}

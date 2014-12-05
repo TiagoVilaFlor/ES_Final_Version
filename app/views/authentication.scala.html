@@ -1,0 +1,96 @@
+<!-- Modal SignIN-->
+<div class="modal fade" id="myModalSignIn" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">Sign In</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-6">
+                        <form id="form" action="login" method="POST" role="form" style="margin-top: 12px">
+                            <p>1ª Hipótese</p>
+                            <div class="form-group">
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Email">
+                            </div>
+                            <div class="input-group">
+                                <input type="password" class="form-control" id="pass" name = "pass" placeholder="Password">
+                                    <!--<a class="input-group-addon" href="" title="Recover Password" style="font-weight: bold; color: #000000">?</a>-->
+                            </div>
+                            <br>
+                                <!--<button type="button" onclick="login()" class="btn btn-sm btn-success" data-dismiss="modal" style="float: right">Sign in</button>-->
+                            <input type="submit" value="submit" onclick="$('#form').submit()" class="btn btn-sm btn-success" data-dismiss="modal" style="float: right">
+                            <br><br>
+                        </form>
+                    </div>
+                    <div class="col-lg-6" >
+                        <div style="margin-top: 12px">
+                            <p>2ª Hipótese</p>
+                        </div>
+                        <div style="display: inline-block; margin-left: 25%;  margin-top: 10%">
+                            <a class="btn btn-social-icon btn-google-plus" href="http://authen.ddns.net/WCSAuthenticationModule/?authmethod=Google"><i class="fa fa-google-plus"></i></a>
+                            <a class="btn btn-social-icon btn-facebook" href="http://authen.ddns.net/WCSAuthenticationModule/?authmethod=Facebook"><i class="fa fa-facebook"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal  SignUP-->
+<div class="modal fade" id="myModalSignUp" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="myModalLabel">Sign Up</h4>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-lg-7">
+                        <form role="form" id="regist" action="regist" method="POST">
+                            <p>1ª Hipótese</p>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="exampleInputFname" name="exampleInputFname" placeholder="FirstName">
+                            </div>
+                            <div class="form-group">
+                                <input type="text" class="form-control" id="exampleInputSname" name="exampleInputSname" placeholder="Surname">
+                            </div>
+
+                            <div class="form-group">
+                                <input type="email" class="form-control" id="exampleInputEmail1" name="exampleInputEmail1" placeholder="Email">
+                            </div>
+                            <div class="form-group">
+                                <input type="email" class="form-control" id="exampleInputReEmail" name="exampleInputReEmail" placeholder="Re-enter email">
+                            </div>
+                            <div class="form-group">
+                                <input type="password" class="form-control" id="examplePassword1" name="examplePassword1" placeholder="Password">
+                            </div>
+                            <input type="submit" value="Sign Up" onclick="$('#regist').submit()" class="btn btn-sm btn-success" data-dismiss="modal" style="float: right">
+                            <br><br>
+                        </form>
+                    </div>
+                    <div class="col-lg-5">
+                        <div >
+                            <p>2ª Hipótese</p>
+                        </div>
+                        <div style="display: inline-block; margin-left: 25%;  margin-top: 10%">
+                            <a class="btn btn-social-icon btn-google-plus" href="http://authen.ddns.net/WCSAuthenticationModule/?authmethod=Google"><i class="fa fa-google-plus"></i></a>
+                            <a class="btn btn-social-icon btn-facebook" href="http://authen.ddns.net/WCSAuthenticationModule/?authmethod=Facebook"><i class="fa fa-facebook"></i></a>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+    </div>
+</div>

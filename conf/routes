@@ -1,0 +1,42 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+# Home page
+
+
+GET        /                    controllers.AppJava.home
+
+GET        /login               controllers.AppJava.login()
+GET        /logout              controllers.AppJava.logout
+
+GET        /privat              controllers.AppJava.privat
+GET        /profile             controllers.AppJava.profile
+
+#GET         /login              controllers.AppJava.tiago()
+
+
+GET        /admin               controllers.AppJava.admin
+
+
+
+GET         /testModal          controllers.AppJava.testModal
+
+
+
+
+
+GET        /calendar            controllers.AppJava.calendar
+GET        /testCharts          controllers.AppJava.testCharts
+GET        /fullCalendar        controllers.AppJava.fullCalendar
+
+
+
+#exemplos Joao Lemos
+GET        /teste               controllers.AppJava.JsonTest
+GET        /teste2              controllers.AppJava.JsonTest2
+
+# Map static resources from the /public folder to the /assets URL path
+GET        /assets/*file        controllers.Assets.at(path="/public", file)
+
+    
